@@ -1,0 +1,77 @@
+version: '3.6'
+
+
+services:
+
+  django:
+    container_name: django
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/app.dockerfile
+    env_file: ./docker/app.env
+    links:
+      - postgres:postgres
+      - redis:redis
+    volumes:
+      - ./public:/data/public
+      - ./django:/data/django
+      - shared_socket:/var/run/shared_socket
+    command: /usr/local/bin/gunicorn --reload --workers 3 --bind unix:/var/run/shared_socket/django.sock project.wsgi_local:application
+    tty: true
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./public:/data/public
+      - ./docker/nginx:/data/server
+      - ./docker/nginx/virtualhost.conf:/etc/nginx/conf.d/default.conf
+      - shared_socket:/var/run/shared_socket
+    links:
+      - django:django
+    extra_hosts:
+      - app.local:127.0.0.1
+    secrets:
+      - source: server.crt
+        target: /run/secrets/server.crt
+      - source: server.key
+        target: /run/secrets/server.key
+
+  postgres:
+    container_name: postgres
+    restart: always
+    image: postgres:latest
+    volumes:
+      - ./docker/postgresql/docker-entrypoint-initdb.d/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
+      - ./docker/postgresql/cache:/var/lib/postgresql/data
+    env_file: ./docker/app.env
+    ports:
+      - 5432:5432
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  redis:
+    container_name: redis
+    restart: always
+    image: redis:latest
+    ports:
+      - 6379:6379
+
+volumes:
+  shared_socket:
+
+secrets:
+  server.crt:
+    file: ./docker/openssl/certs/server.crt
+  server.key:
+    file: ./docker/openssl/certs/server.key

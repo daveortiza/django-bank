@@ -1,0 +1,60 @@
+{% extends 'banking/layout.html' %}
+
+{% load static %}
+{% load banking_tags %}
+
+{% block title %}My Cards{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-3">
+            <button type="button" class="btn btn-link" id="callCardModal">
+                <i class="far fa-credit-card fa-2x"></i>&nbsp;&nbsp;Request a new card
+            </button>
+            <button type="button" class="btn btn-link" id="callTransactionModal">
+                <i class="fas fa-hand-holding-usd fa-2x"></i>&nbsp;&nbsp;Create an operation
+            </button>
+        </div>
+        <div class="col-md-6">
+            {% for card in cards %}
+                <div class="row">
+                    <a href="{% url 'card' card %}">
+                        <div class="col-md-12 credit-card">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <b>Django Banking</b>
+                                </div>
+                                <div class="col-md-4 offset-md-4 text-right">
+                                    <i class="fab fa-cc-visa fa-3x"></i>
+                                    <i class="fab fa-cc-mastercard fa-3x"></i>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-number">{{ card.number|amazing_number|safe }}</div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <b>Created at {{ card.created|date:"m/y" }}</b>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <i class="fab fa-apple-pay fa-2x"></i>
+                                    <i class="fab fa-bitcoin fa-2x"></i>
+                                    <i class="fab fa-amazon-pay fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html lang="en">
+    <head>
+        <title>Django Bank - {% block title %}{% endblock %}</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="oleksii.v.velychko@gmail.com">
+        <link rel="icon" href="{% static 'images/favicon.ico' %}">
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+        <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="{% static 'signup/css/signup.css' %}">
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    </head>
+    <body class="text-center">
+
+        {% block content %}{% endblock %}
+
+    </body>
+</html>

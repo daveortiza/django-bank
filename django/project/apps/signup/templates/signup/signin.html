@@ -1,0 +1,32 @@
+{% extends 'signup/layout.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <form class="form-signin" method="post">
+
+        {% csrf_token %}
+
+        <img class="mb-4" src="{% static 'images/debit-card.svg' %}" alt="" width="72" height="72">
+
+        <h1 class="h3 mb-3 font-weight-normal">Please login or <a href="{% url 'signup' %}">register</a></h1>
+
+        <label for="{{ form.username.id_for_label }}" class="sr-only">Email address</label>
+        <input type="text" id="{{ form.username.id_for_label }}" name="username" class="form-control" placeholder="Email address" required autofocus>
+
+        <label for="{{ form.password.id_for_label }}" class="sr-only">Password</label>
+        <input type="password" id="{{ form.password.id_for_label }}" name="password" class="form-control" placeholder="Password" required>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+
+        {% for error in form.non_field_errors %}
+            <br>
+            <p class="err">{{ error }}</p>
+        {% endfor %}
+
+        {% now "Y" as current_year %}
+        <p class="mt-3 mb-3 text-muted">Django Bank © {{ current_year }}</p>
+    </form>
+{% endblock %}

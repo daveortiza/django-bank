@@ -1,0 +1,120 @@
+{% extends 'banking/layout.html' %}
+
+{% load static %}
+{% load banking_tags %}
+
+{% block title %}Card{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12 credit-card">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <b>Django Banking</b>
+                        </div>
+                        <div class="col-md-4 offset-md-4 col-sm-6 col-xs-6 text-right">
+                            <i class="fab fa-cc-visa fa-3x"></i>
+                            <i class="fab fa-cc-mastercard fa-3x"></i>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="row">
+                        <div class="col-md-5 offset-md-1 col-sm-6 col-xs-6">
+                            <div class="card-balance">Balance: {{ card.balance }}
+                                &nbsp;<i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="card-number" data-number="{{ card }}"></div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <b>Created at {{ card.created|date:"m/y" }}</b>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <i class="fab fa-apple-pay fa-2x"></i>
+                            <i class="fab fa-bitcoin fa-2x"></i>
+                            <i class="fab fa-amazon-pay fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <div class="row">
+        <h3 class="my-4">Card transactions</h3>
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sum</th>
+                        <th>Balance</th>
+                        <th>Card Receiver</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td style="color: {{ transaction.operation|color_operation }};">${{ transaction.sum|floatformat:2 }}</td>
+                    <td>${{ transaction.balance|floatformat:2 }}</td>
+                    <td>{{ transaction.card_to.number|default:"THIS CREDIT CARD" }}</td>
+                    <td>{{ transaction.created|date:"d.m.Y H:i:s" }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if transactions.has_other_pages %}
+        <nav aria-label="Django Shop Pagination" class="right">
+            <ul class="pagination">
+                {% if transactions.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ transactions.previous_page_number }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="" tabindex="-1">Previous</a>
+                    </li>
+                {% endif %}
+
+                {% for i in transactions.paginator.page_range %}
+                    {% if transactions.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if transactions.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ transactions.next_page_number }}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="" tabindex="-1">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+
+{% endblock %}

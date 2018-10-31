@@ -1,0 +1,37 @@
+body {
+  padding-top: 80px !important;
+  font-family: 'Ubuntu', sans-serif; }
+
+.container .credit-card {
+  background-color: gold;
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px #ccc solid;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+  .container .credit-card .card-number {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center; }
+  .container .credit-card .card-balance {
+    font-size: 28px;
+    font-weight: bold; }
+
+.right {
+  float: right; }
+
+.left {
+  float: left; }
+
+a, .btn-link {
+  text-decoration: none !important;
+  width: 100%; }
+
+.help-block {
+  color: #ff4a4a; }
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px; } }
+
+/*# sourceMappingURL=banking.css.map */
