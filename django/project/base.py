@@ -119,3 +119,18 @@ STATIC_ROOT = os.path.join(PUBLIC_DIR, 'static/')
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'staticfiles'),
 ]
+
+# Redis
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
