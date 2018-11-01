@@ -22,11 +22,11 @@ def home(request):
     :param request:
     :return:
     """
-    #if 'cards' in cache:
-    #    cards = cache.get('cards')
-    #else:
-    cards = Card.objects.filter(user=request.user)
-    #cache.set('cards', cards, timeout=CACHE_TTL)
+    if 'cards' in cache:
+        cards = cache.get('cards')
+    else:
+        cards = Card.objects.filter(user=request.user)
+        cache.set('cards', cards, timeout=CACHE_TTL)
 
     return render(request, 'banking/home.html', {
         'cards': cards
