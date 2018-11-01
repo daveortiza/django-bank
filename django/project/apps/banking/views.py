@@ -22,11 +22,13 @@ def home(request):
     :param request:
     :return:
     """
-    if 'cards' in cache:
-        cards = cache.get('cards')
+    cache_name = 'cards-' + str(request.user.id)
+
+    if cache_name in cache:
+        cards = cache.get(cache_name)
     else:
         cards = Card.objects.filter(user=request.user)
-        cache.set('cards', cards, timeout=CACHE_TTL)
+        cache.set(cache_name, cards, timeout=CACHE_TTL)
 
     return render(request, 'banking/home.html', {
         'cards': cards
@@ -50,8 +52,9 @@ def create(request):
             credit_card = Card(user=request.user)
             credit_card.save()
 
-            if 'cards' in cache:
-                cache.delete('cards')
+            cache_name = 'cards-' + str(request.user.id)
+            if cache_name in cache:
+                cache.delete(cache_name)
 
         except ValidationError:
             return JsonResponse({'_status': '500'})
