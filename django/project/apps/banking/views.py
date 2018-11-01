@@ -49,6 +49,10 @@ def create(request):
         try:
             credit_card = Card(user=request.user)
             credit_card.save()
+
+            if 'cards' in cache:
+                cache.delete('cards')
+
         except ValidationError:
             return JsonResponse({'_status': '500'})
         else:
