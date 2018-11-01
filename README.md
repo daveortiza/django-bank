@@ -36,7 +36,7 @@ In order to start this project (after cloning) need to follow next steps:
 
     Then import rootCA.pem to browser through Settings -> Manage Certficates -> Authorities tabs
 
-2. Build and run dockker containers:
+2. Build and run docker containers:
 
     ```
     docker-compose build
@@ -60,7 +60,7 @@ In order to start this project (after cloning) need to follow next steps:
     npm install
     ```
     
-5. Execute Django commands:
+5. Execute necessary Django commands:
 
     ```
     cd django
