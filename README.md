@@ -1,8 +1,9 @@
 # django-bank
 This project demonstrates simple solution based on online banking theme.
-Application provides secure form to manage operations over and between credit cards. 
-Included Redis storage for client cards.
-Also included Adminer (docker container) for manage database.
+Application provides secure form to manage operations over and between user's credit cards. 
+To get a transaction page (detail view) need to click by card.
+Includes Redis storage for storing in memory list of cards.
+Also included Adminer (docker container) for manage database. Available by http://app.local:8080/adminer
 
 Please visit <a href="https://bank.alexdevel.pro">https://bank.alexdevel.pro</a> (production version)
 
